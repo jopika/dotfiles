@@ -16,7 +16,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -79,15 +79,15 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	git 
-	autoenv 
-	brew 
-	zsh-autosuggestions 
-	zsh-syntax-highlighting
-	you-should-use
-	zsh-bat
-	zsh-history-substring-search
-	zsh-nvm
+	# git 
+	# autoenv 
+	# brew 
+	# zsh-autosuggestions 
+	# zsh-syntax-highlighting
+	# you-should-use
+	# zsh-bat
+	# zsh-history-substring-search
+	# zsh-nvm
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -125,7 +125,6 @@ source $ZSH/oh-my-zsh.sh
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 source '/opt/homebrew/opt/autoenv/activate.sh'
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -135,3 +134,33 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 eval "$(zoxide init --cmd cd zsh)"
+
+# Antigen plugin management
+source $HOME/.antigen/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle pip
+
+# External plugins.
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle Tarrasch/zsh-autoenv
+antigen bundle wintermi/zsh-brew
+antigen bundle MichaelAquilina/zsh-you-should-use
+antigen bundle fdellwing/zsh-bat
+antigen bundle lukechilds/zsh-nvm
+
+# Set the theme.
+antigen theme romkatv/powerlevel10k
+
+# Apply (load) Antigen config.
+antigen apply
+
+# Load and initialise completion system, from zsh-brew
+autoload -Uz compinit
+compinit -d "${ZDOTDIR:-$HOME}/.zcompdump"
