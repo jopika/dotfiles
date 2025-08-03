@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Color Definitions
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
@@ -8,7 +15,7 @@ command_exists() {
     command -v "$1" &> /dev/null
 }
 
-echo "Starting setup..."
+echo -e "${BLUE}Starting setup...${NC}"
 
 # Determine OS
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -16,25 +23,25 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     PACKAGE_MANAGER="brew"
 else
-    echo "Unsupported OS: $OSTYPE"
+    echo -e "${RED}Unsupported OS: $OSTYPE${NC}"
     exit 1
 fi
 
-echo "Using $PACKAGE_MANAGER as package manager."
+echo -e "${BLUE}Using ${GREEN}$PACKAGE_MANAGER${BLUE} as package manager.${NC}"
 
 # macOS specific setup
 if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
     if ! command_exists brew; then
-        echo "Homebrew not found. Installing Homebrew..."
+        echo -e "${YELLOW}Homebrew not found. Installing Homebrew...${NC}"
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
-        echo "Homebrew is already installed."
+        echo -e "${GREEN}Homebrew is already installed.${NC}"
     fi
 fi
 
 # Install Zsh
 if ! command_exists zsh; then
-    echo "Zsh not found. Installing Zsh..."
+    echo -e "${YELLOW}Zsh not found. Installing Zsh...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
         brew install zsh
     elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
@@ -42,32 +49,32 @@ if ! command_exists zsh; then
         sudo apt-get install -y zsh
     fi
 else
-    echo "Zsh is already installed."
+    echo -e "${GREEN}Zsh is already installed.${NC}"
 fi
 
 # Set Zsh as the default shell
 if [[ "$SHELL" != *"zsh"* ]]; then
-    echo "Setting Zsh as the default shell..."
+    echo -e "${BLUE}Setting Zsh as the default shell...${NC}"
     chsh -s "$(command -v zsh)"
-    echo "Default shell changed to Zsh. Please log out and log back in for the change to take effect."
+    echo -e "${GREEN}Default shell changed to Zsh. Please log out and log back in for the change to take effect.${NC}"
 else
-    echo "Zsh is already the default shell."
+    echo -e "${GREEN}Zsh is already the default shell.${NC}"
 fi
 
 # Install Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "Oh My Zsh not found. Installing Oh My Zsh..."
+    echo -e "${YELLOW}Oh My Zsh not found. Installing Oh My Zsh...${NC}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
-    echo "Oh My Zsh is already installed."
+    echo -e "${GREEN}Oh My Zsh is already installed.${NC}"
 fi
 
 # --- Tool Installations ---
-echo "Checking and installing command-line tools..."
+echo -e "${BLUE}Checking and installing command-line tools...${NC}"
 
 # zoxide
 if ! command_exists zoxide; then
-    echo "Installing zoxide..."
+    echo -e "${YELLOW}Installing zoxide...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
         brew install zoxide
     elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
@@ -75,12 +82,12 @@ if ! command_exists zoxide; then
         sudo apt-get install -y zoxide
     fi
 else
-    echo "zoxide is already installed."
+    echo -e "${GREEN}zoxide is already installed.${NC}"
 fi
 
 # fzf
 if ! command_exists fzf; then
-    echo "Installing fzf..."
+    echo -e "${YELLOW}Installing fzf...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
         brew install fzf
         # To install key bindings and fuzzy completion, but this should already be in the .zshrc
@@ -90,12 +97,12 @@ if ! command_exists fzf; then
         sudo apt-get install -y fzf
     fi
 else
-    echo "fzf is already installed."
+    echo -e "${GREEN}fzf is already installed.${NC}"
 fi
 
 # bat
 if ! command_exists bat; then
-    echo "Installing bat..."
+    echo -e "${YELLOW}Installing bat...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
         brew install bat
     elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
@@ -103,27 +110,29 @@ if ! command_exists bat; then
         sudo apt-get install -y bat
     fi
 else
-    echo "bat is already installed."
+    echo -e "${GREEN}bat is already installed.${NC}"
 fi
 
 # --- nvm Installation ---
 if [ ! -d "$HOME/.nvm" ]; then
-    echo "Installing nvm..."
+    echo -e "${YELLOW}Installing nvm...${NC}"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 else
-    echo "nvm is already installed."
+    echo -e "${GREEN}nvm is already installed.${NC}"
 fi
 
 
 # --- Antigen Installation ---
-echo "Checking and installing Antigen..."
+echo -e "${BLUE}Checking and installing Antigen...${NC}"
 ANTIGEN_DIR="$HOME/.antigen"
 if [ ! -d "$ANTIGEN_DIR" ]; then
-    echo "Antigen not found. Installing Antigen..."
+    echo -e "${YELLOW}Antigen not found. Installing Antigen...${NC}"
     git clone https://github.com/zsh-users/antigen.git "$ANTIGEN_DIR"
 else
-    echo "Antigen is already installed."
+    echo -e "${GREEN}Antigen is already installed.${NC}"
 fi
+
+echo -e "${GREEN}Setup complete!${NC}"
 
 ###### Old, Archived way to manage OMZ Plugins, keeping for posterity ######
 # # --- Oh My Zsh Plugin Installations & Configuration ---
