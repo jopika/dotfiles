@@ -1,5 +1,8 @@
 # Comments and blank lines are allowed.
 
+# One time files to ignore
+setup.sh
+
 # MacOS files
 \.DS_Store
 

@@ -124,7 +124,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
-source '/opt/homebrew/opt/autoenv/activate.sh'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -151,9 +150,11 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle Tarrasch/zsh-autoenv
 # antigen bundle wintermi/zsh-brew
+# antigen bundle wintermi/zsh-mise
 antigen bundle MichaelAquilina/zsh-you-should-use
 antigen bundle fdellwing/zsh-bat
 antigen bundle lukechilds/zsh-nvm
+# antigen bundle Aloxaf/fzf-tab
 
 # Set the theme.
 antigen theme romkatv/powerlevel10k

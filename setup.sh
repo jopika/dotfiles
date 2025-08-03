@@ -72,7 +72,20 @@ fi
 # --- Tool Installations ---
 echo -e "${BLUE}Checking and installing command-line tools...${NC}"
 
-# zoxide
+# --- stow Installation ---
+if ! command_exists stow; then
+    echo -e "${YELLOW}Installing stow...${NC}"
+    if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+        brew install stow
+    elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
+        sudo apt-get update
+        sudo apt-get install -y stow
+    fi
+else
+    echo -e "${GREEN}stow is already installed.${NC}"
+fi
+
+# --- zoxide Installation ---
 if ! command_exists zoxide; then
     echo -e "${YELLOW}Installing zoxide...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
@@ -85,7 +98,7 @@ else
     echo -e "${GREEN}zoxide is already installed.${NC}"
 fi
 
-# fzf
+# --- fzf Installation --- 
 if ! command_exists fzf; then
     echo -e "${YELLOW}Installing fzf...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
@@ -100,7 +113,7 @@ else
     echo -e "${GREEN}fzf is already installed.${NC}"
 fi
 
-# bat
+# --- bat Installation ---
 if ! command_exists bat; then
     echo -e "${YELLOW}Installing bat...${NC}"
     if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
@@ -121,6 +134,15 @@ else
     echo -e "${GREEN}nvm is already installed.${NC}"
 fi
 
+# --- mise Installation ---
+if ! command_exists mise; then
+    echo -e "${YELLOW}Installing mise...${NC}"
+    curl -fsSL https://mise.run | sh
+    mise use --global usage@latest
+else
+    echo -e "${GREEN}mise is already installed.${NC}"
+fi
+
 
 # --- Antigen Installation ---
 echo -e "${BLUE}Checking and installing Antigen...${NC}"
@@ -131,6 +153,9 @@ if [ ! -d "$ANTIGEN_DIR" ]; then
 else
     echo -e "${GREEN}Antigen is already installed.${NC}"
 fi
+
+# Setting up Stow
+stow . -t ~
 
 echo -e "${GREEN}Setup complete!${NC}"
 
