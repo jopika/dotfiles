@@ -138,6 +138,7 @@ fi
 if ! command_exists mise; then
     echo -e "${YELLOW}Installing mise...${NC}"
     curl -fsSL https://mise.run | sh
+    eval "$(~/.local/bin/mise activate zsh)"
     mise use --global usage@latest
 else
     echo -e "${GREEN}mise is already installed.${NC}"
@@ -153,6 +154,8 @@ if [ ! -d "$ANTIGEN_DIR" ]; then
 else
     echo -e "${GREEN}Antigen is already installed.${NC}"
 fi
+
+echo -e "${BLUE}Invoking stow to build soflinks...${NC}"
 
 # Setting up Stow
 stow . -t ~

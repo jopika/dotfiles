@@ -165,3 +165,8 @@ antigen apply
 # Load and initialise completion system, from zsh-brew
 autoload -Uz compinit
 compinit -d "${ZDOTDIR:-$HOME}/.zcompdump"
+
+source ~/.zsh_aliases
+source ~/.zsh_functions
+
+eval "$(~/.local/bin/mise activate zsh)"
