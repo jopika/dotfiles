@@ -150,7 +150,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle Tarrasch/zsh-autoenv
-antigen bundle wintermi/zsh-brew
+# antigen bundle wintermi/zsh-brew
 antigen bundle MichaelAquilina/zsh-you-should-use
 antigen bundle fdellwing/zsh-bat
 antigen bundle lukechilds/zsh-nvm
