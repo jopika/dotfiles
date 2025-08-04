@@ -25,15 +25,15 @@ echo -e "${BLUE}Starting development environment setup...${NC}"
 # --- OS and Package Manager Detection ---
 # Determine the host operating system and set the appropriate package manager.
 # Supports Debian/Ubuntu (apt) and macOS (brew).
-case "$OSTYPE" in
-  linux-gnu*)
+case "$(uname -s)" in
+  Linux)
     PACKAGE_MANAGER="apt"
     ;;
-  darwin*)
+  Darwin)
     PACKAGE_MANAGER="brew"
     ;;
   *)
-    echo -e "${RED}Unsupported OS: $OSTYPE${NC}"
+    echo -e "${RED}Unsupported OS: $(uname -s)${NC}"
     exit 1
     ;;
 esac
