@@ -25,20 +25,24 @@ echo -e "${BLUE}Starting development environment setup...${NC}"
 # --- OS and Package Manager Detection ---
 # Determine the host operating system and set the appropriate package manager.
 # Supports Debian/Ubuntu (apt) and macOS (brew).
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+case "$OSTYPE" in
+  linux-gnu*)
     PACKAGE_MANAGER="apt"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+    ;;
+  darwin*)
     PACKAGE_MANAGER="brew"
-else
+    ;;
+  *)
     echo -e "${RED}Unsupported OS: $OSTYPE${NC}"
     exit 1
-fi
+    ;;
+esac
 
 echo -e "${BLUE}Using ${GREEN}$PACKAGE_MANAGER${BLUE} as the package manager.${NC}"
 
 # --- macOS Specific Setup ---
 # If on macOS, check for Homebrew and install it if it's not present.
-if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+if [ "$PACKAGE_MANAGER" = "brew" ]; then
     if ! command_exists brew; then
         echo -e "${YELLOW}Homebrew not found. Installing Homebrew...${NC}"
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -51,9 +55,9 @@ fi
 # Check if Zsh is installed and, if not, install it using the detected package manager.
 if ! command_exists zsh; then
     echo -e "${YELLOW}Zsh not found. Installing Zsh...${NC}"
-    if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+    if [ "$PACKAGE_MANAGER" = "brew" ]; then
         brew install zsh
-    elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
+    elif [ "$PACKAGE_MANAGER" = "apt" ]; then
         sudo apt-get update
         sudo apt-get install -y zsh
     fi
@@ -64,13 +68,16 @@ fi
 # --- Set Zsh as Default Shell ---
 # Change the default shell to Zsh if it isn't already.
 # This requires the user to log out and back in for the change to take effect.
-if [[ "$SHELL" != *"zsh"* ]]; then
+case "$SHELL" in
+  *zsh*)
+    echo -e "${GREEN}Zsh is already the default shell.${NC}"
+    ;;
+  *)
     echo -e "${BLUE}Setting Zsh as the default shell...${NC}"
     chsh -s "$(command -v zsh)"
     echo -e "${GREEN}Default shell changed to Zsh. Please log out and log back in for the change to take effect.${NC}"
-else
-    echo -e "${GREEN}Zsh is already the default shell.${NC}"
-fi
+    ;;
+esac
 
 # --- Oh My Zsh Installation ---
 # Install the Oh My Zsh framework for managing Zsh configuration if it's not already installed.
@@ -88,9 +95,9 @@ echo -e "${BLUE}Checking and installing essential command-line tools...${NC}"
 # Stow is used for managing dotfiles by creating symlinks.
 if ! command_exists stow; then
     echo -e "${YELLOW}Installing stow...${NC}"
-    if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+    if [ "$PACKAGE_MANAGER" = "brew" ]; then
         brew install stow
-    elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
+    elif [ "$PACKAGE_MANAGER" = "apt" ]; then
         sudo apt-get update
         sudo apt-get install -y stow
     fi
@@ -102,9 +109,9 @@ fi
 # zoxide is a smarter `cd` command that learns your habits.
 if ! command_exists zoxide; then
     echo -e "${YELLOW}Installing zoxide...${NC}"
-    if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+    if [ "$PACKAGE_MANAGER" = "brew" ]; then
         brew install zoxide
-    elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
+    elif [ "$PACKAGE_MANAGER" = "apt" ]; then
         sudo apt-get update
         sudo apt-get install -y zoxide
     fi
@@ -116,9 +123,9 @@ fi
 # fzf is a command-line fuzzy finder for quickly searching and selecting files, commands, etc.
 if ! command_exists fzf; then
     echo -e "${YELLOW}Installing fzf...${NC}"
-    if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+    if [ "$PACKAGE_MANAGER" = "brew" ]; then
         brew install fzf
-    elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
+    elif [ "$PACKAGE_MANAGER" = "apt" ]; then
         sudo apt-get update
         sudo apt-get install -y fzf
     fi
@@ -130,9 +137,9 @@ fi
 # bat is a `cat` clone with syntax highlighting and Git integration.
 if ! command_exists bat; then
     echo -e "${YELLOW}Installing bat...${NC}"
-    if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
+    if [ "$PACKAGE_MANAGER" = "brew" ]; then
         brew install bat
-    elif [[ "$PACKAGE_MANAGER" == "apt" ]]; then
+    elif [ "$PACKAGE_MANAGER" = "apt" ]; then
         sudo apt-get update
         sudo apt-get install -y bat
     fi
