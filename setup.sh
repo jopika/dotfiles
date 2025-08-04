@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # --- Color Definitions ---
 # Define color codes for script output to improve readability.
@@ -161,6 +161,8 @@ fi
 if ! command_exists mise; then
     echo -e "${YELLOW}Installing mise...${NC}"
     curl -fsSL https://mise.run | sh
+    # Ensure mise is in PATH for immediate use within the script
+    export PATH="$HOME/.local/bin:$PATH"
     # Activate mise for the current shell session to use it immediately.
     eval "$(~/.local/bin/mise activate zsh)"
     # Install the latest version of the usage tool for mise.
