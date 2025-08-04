@@ -13,6 +13,9 @@ NC='\033[0m' # No Color
 # will stop if any of its commands fail.
 set -e
 
+# Make sure local bin is set up in the path
+export PATH="$HOME/.local/bin:$PATH"
+
 # --- Helper Functions ---
 # Function to check if a command-line tool is installed and available in the system's PATH.
 # Usage: command_exists <command>
@@ -164,7 +167,6 @@ if ! command_exists mise; then
     echo -e "${YELLOW}Installing mise...${NC}"
     curl -fsSL https://mise.run | sh
     # Ensure mise is in PATH for immediate use within the script
-    export PATH="$HOME/.local/bin:$PATH"
     # Activate mise for the current shell session to use it immediately.
     eval "$(~/.local/bin/mise activate zsh)"
     # Install the latest version of the usage tool for mise.

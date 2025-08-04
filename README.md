@@ -2,7 +2,10 @@
 Contains the dotfiles used to manage *nix environments 
 
 # Requirements
-Make sure `git` is installed on your system. You can attempt to verify this 
+Make sure `git` is installed on your system.
+- Git
+- curl
+- sudo
 
 ## MacOS
 You can install a easy configuration with x-code (this may take a while)
