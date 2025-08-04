@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # --- Color Definitions ---
 # Define color codes for script output to improve readability.
@@ -17,7 +17,7 @@ set -e
 # Function to check if a command-line tool is installed and available in the system's PATH.
 # Usage: command_exists <command>
 command_exists() {
-    command -v "$1" &> /dev/null
+    command -v "$1" >/dev/null 2>&1
 }
 
 echo -e "${BLUE}Starting development environment setup...${NC}"
